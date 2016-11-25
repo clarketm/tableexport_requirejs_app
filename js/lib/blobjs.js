@@ -11,8 +11,8 @@
 
 ;(function (root, factory) {
     if (typeof define === 'function' && define.amd) {
-        define(['exports'], function (a) {
-            return factory(root || a);
+        define(['exports'], function (e) {
+            return (root.Blob = factory(root.exports || e));
         });
     } else if (typeof exports === 'object' && typeof exports.nodeName !== 'string') {
         // CommonJS
@@ -22,7 +22,6 @@
     }
 }(this, function (exports) {
         "use strict";
-
         var is_safari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
 
         exports.URL = exports.URL || exports.webkitURL;
@@ -219,6 +218,8 @@
             };
 
         exports.Blob.prototype = getPrototypeOf(new exports.Blob());
+
+        return exports;
 
     }
 ));

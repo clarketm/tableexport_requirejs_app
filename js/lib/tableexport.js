@@ -27,8 +27,6 @@
          * @constructor
          */
 
-        Blob = Blob || exports.Blob;
-
         var TableExport = function (selectors, options, isUpdate) {
 
             var self = this;

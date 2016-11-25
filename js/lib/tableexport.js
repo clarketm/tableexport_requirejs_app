@@ -1,6 +1,512 @@
 /*!
- * TableExport.js 4.0.0-alpha.1 (https://www.travismclarke.com)
+ * TableExport.js 3.3.1 (https://www.travismclarke.com)
  * Copyright 2016 Travis Clarke
  * Licensed under the MIT license
  */
-!function(t,e){"function"==typeof define&&define.amd?define(["exports","jquery","blobjs","file-saver","xlsx"],e):"object"==typeof exports&&"string"!=typeof exports.nodeName?e(exports,require("jquery"),require("blobjs"),require("file-saver"),require("xlsx")):e(t,t.jQuery,t.Blob,t.saveAs,t.XLSX)}(this,function(t,e,o,n,r){"use strict";function i(){for(var t=arguments,e=1;e<t.length;e++)for(var o in t[e])t[e].hasOwnProperty(o)&&(t[0][o]=t[e][o]);return t[0]}function s(t){return[].slice.call(t)}function a(t,e,o){for(var n=0;n<t.length;++n)t[n].addEventListener(e,o,!1)}function l(t,e){return t.classList?t.classList.contains(e):new RegExp("(^| )"+e+"( |$)","gi").test(t.cls)}var p=function(t,e,o){var n=this;n.settings=o?e:i({},p.prototype.defaults,e),n.selectors=s(t);var f,u,c,x=p.prototype.rowDel,y=n.settings.ignoreRows instanceof Array?n.settings.ignoreRows:[n.settings.ignoreRows],m=n.settings.ignoreCols instanceof Array?n.settings.ignoreCols:[n.settings.ignoreCols],d=n.settings.ignoreCSS instanceof Array?n.settings.ignoreCSS.join(", "):n.settings.ignoreCSS,g=n.settings.emptyCSS instanceof Array?n.settings.emptyCSS.join(", "):n.settings.emptyCSS;n.settings.bootstrap?(f=p.prototype.bootstrap[0]+" ",u=p.prototype.bootstrap[1]+" ",c=p.prototype.bootstrap[2]+" "):(f=p.prototype.defaultButton+" ",u=c=""),n.selectors.forEach(function(t){function e(e){var o=t.querySelectorAll("caption:not(.head)");o.length?o[0].appendChild(e):(o=document.createElement("caption"),o.className=c+n.settings.position,o.appendChild(e),t.insertBefore(o,t.firstChild))}function i(t,o,n){var r=document.createElement("button");r.setAttribute("data-fileblob",t),r.className=f+u+n,r.textContent=o,e(r)}var a=t.querySelectorAll("caption:not(.head)");o&&a.parentNode.removeChild(a);var b=s(t.querySelectorAll("tbody > tr")),b=n.settings.headings?s(t.querySelectorAll("thead > tr")).concat(b):b,b=n.settings.footers?s(t.querySelectorAll("tfoot > tr")).concat(b):b,h=n.settings.headings?t.querySelectorAll("thead > tr").length:0,v="id"===n.settings.fileName?t.getAttribute("id")?t.getAttribute("id"):p.prototype.defaultFileName:n.settings.fileName,S={xlsx:function(t,e){var o={},n=s(b).map(function(t,e){if(!~y.indexOf(e-h)&&!l(t,d)){var n=t.querySelectorAll("th, td");return s(n).map(function(t,n){if(!~m.indexOf(n)&&!l(t,d)){if(l(t,g))return" ";if(t.hasAttribute("colspan")&&(o[e]=o[e]||{},o[e][n+1]=t.getAttribute("colspan")-1),t.hasAttribute("rowspan"))for(var r=1;r<t.getAttribute("rowspan");r++)o[e+r]=o[e+r]||{},o[e+r][n]=1;return o[e]&&o[e][n]?new Array(o[e][n]).concat(t.textContent):t.textContent}})}}),r=p.prototype.escapeHtml(JSON.stringify({data:n,fileName:e,mimeType:p.prototype.xlsx.mimeType,fileExtension:p.prototype.xlsx.fileExtension})),a=p.prototype.xlsx.buttonContent,f=p.prototype.xlsx.defaultClass;i(r,a,f)},xlsm:function(t,e){var o={},n=s(b).map(function(t,e){if(!~y.indexOf(e-h)&&!l(t,d)){var n=t.querySelectorAll("th, td");return s(n).map(function(t,n){if(!~m.indexOf(n)&&!l(t,d)){if(l(t,g))return" ";if(t.hasAttribute("colspan")&&(o[e]=o[e]||{},o[e][n+1]=t.getAttribute("colspan")-1),t.hasAttribute("rowspan"))for(var r=1;r<t.getAttribute("rowspan");r++)o[e+r]=o[e+r]||{},o[e+r][n]=1;return o[e]&&o[e][n]?new Array(o[e][n]).concat(t.textContent):t.textContent}})}}),r=p.prototype.escapeHtml(JSON.stringify({data:n,fileName:e,mimeType:p.prototype.xls.mimeType,fileExtension:p.prototype.xls.fileExtension})),a=p.prototype.xls.buttonContent,f=p.prototype.xls.defaultClass;i(r,a,f)},xls:function(t,e){var o=p.prototype.xls.separator,n=s(b).map(function(t,e){if(!~y.indexOf(e-h)&&!l(t,d)){var n=t.querySelectorAll("th, td");return s(n).map(function(t,e){if(!~m.indexOf(e)&&!l(t,d))return l(t,g)?" ":t.textContent}).join(o)}}).join(t),r=p.prototype.escapeHtml(JSON.stringify({data:n,fileName:e,mimeType:p.prototype.xls.mimeType,fileExtension:p.prototype.xls.fileExtension})),a=p.prototype.xls.buttonContent,f=p.prototype.xls.defaultClass;i(r,a,f)},csv:function(t,e){var o=p.prototype.csv.separator,n=s(b).map(function(t,e){if(!~y.indexOf(e-h)&&!l(t,d)){var n=t.querySelectorAll("th, td");return s(n).map(function(t,e){if(!~m.indexOf(e)&&!l(t,d))return l(t,g)?" ":'"'+t.textContent.replace(/"/g,'""')+'"'}).join(o)}}).join(t),r=p.prototype.escapeHtml(JSON.stringify({data:n,fileName:e,mimeType:p.prototype.csv.mimeType,fileExtension:p.prototype.csv.fileExtension})),a=p.prototype.csv.buttonContent,f=p.prototype.csv.defaultClass;i(r,a,f)},txt:function(t,e){var o=p.prototype.txt.separator,n=s(b).map(function(t,e){if(!~y.indexOf(e-h)&&!l(t,d)){var n=t.querySelectorAll("th, td");return s(n).map(function(t,e){if(!~m.indexOf(e)&&!l(t,d))return l(t,g)?" ":t.textContent}).join(o)}}).join(t),r=p.prototype.escapeHtml(JSON.stringify({data:n,fileName:e,mimeType:p.prototype.txt.mimeType,fileExtension:p.prototype.txt.fileExtension})),a=p.prototype.txt.buttonContent,f=p.prototype.txt.defaultClass;i(r,a,f)}};n.settings.formats.forEach(function(t){!(!r||"xls"!==t)&&(t="xlsm"),!r&&"xlsx"===t&&(t=null),t&&S[t](x,v)})});var b=document.querySelectorAll("button[data-fileblob]");return a(b,"click",function(){var t=JSON.parse(this.getAttribute("data-fileblob")),e=t.data,o=t.fileName,n=t.mimeType,r=t.fileExtension;p.prototype.export2file(e,n,o,r)}),n};if(p.prototype={defaults:{headings:!0,footers:!0,formats:["xls","csv","txt"],fileName:"id",bootstrap:!0,position:"bottom",ignoreRows:null,ignoreCols:null,ignoreCSS:".tableexport-ignore",emptyCSS:".tableexport-empty"},charset:"charset=utf-8",defaultFileName:"myDownload",defaultButton:"button-default",bootstrap:["btn","btn-default","btn-toolbar"],rowDel:"\r\n",entityMap:{"&":"&#38;","<":"&#60;",">":"&#62;","'":"&#39;","/":"&#47;"},xlsx:{defaultClass:"xlsx",buttonContent:"Export to xlsx",mimeType:"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",fileExtension:".xlsx"},xls:{defaultClass:"xls",buttonContent:"Export to xls",separator:"\t",mimeType:"application/vnd.ms-excel",fileExtension:".xls"},csv:{defaultClass:"csv",buttonContent:"Export to csv",separator:",",mimeType:"text/csv",fileExtension:".csv"},txt:{defaultClass:"txt",buttonContent:"Export to txt",separator:"  ",mimeType:"text/plain",fileExtension:".txt"},escapeHtml:function(t){return String(t).replace(/[&<>'\/]/g,function(t){return p.prototype.entityMap[t]})},dateNum:function(t,e){e&&(t+=1462);var o=Date.parse(t);return(o-new Date(Date.UTC(1899,11,30)))/864e5},createSheet:function(t){for(var e={},o={s:{c:1e7,r:1e7},e:{c:0,r:0}},n=0;n!=t.length;++n)for(var i=0;i!=t[n].length;++i){o.s.r>n&&(o.s.r=n),o.s.c>i&&(o.s.c=i),o.e.r<n&&(o.e.r=n),o.e.c<i&&(o.e.c=i);var s={v:t[n][i]};if(null!=s.v){var a=r.utils.encode_cell({c:i,r:n});"number"==typeof s.v?s.t="n":"boolean"==typeof s.v?s.t="b":s.v instanceof Date?(s.t="n",s.z=r.SSF._table[14],s.v=this.dateNum(s.v)):s.t="s",e[a]=s}}return o.s.c<1e7&&(e["!ref"]=r.utils.encode_range(o)),e},Workbook:function(){this.SheetNames=[],this.Sheets={}},string2ArrayBuffer:function(t){for(var e=new ArrayBuffer(t.length),o=new Uint8Array(e),n=0;n!=t.length;++n)o[n]=255&t.charCodeAt(n);return e},export2file:function(t,e,i,s){if(r&&".xls"==s.substr(0,4)){var a=new this.Workbook,l=this.createSheet(t);a.SheetNames.push(i),a.Sheets[i]=l;var p={bookType:s.substr(1,3)+(s.substr(4)||"m"),bookSST:!1,type:"binary"},f=r.write(a,p);t=this.string2ArrayBuffer(f)}n(new o([t],{type:e+";"+this.charset}),i+s,!0)},update:function(t){return new p(this.selectors,i({},this.settings,t),(!0))},reset:function(){return new p(this.selectors,settings,(!0))},remove:function(){this.selectors.each(function(){var t=this.querySelectorAll("caption:not(.head)");t.parentNode.removeChild(t)})}},e){e.fn.tableExport=function(t,e){return new p(this,t,e)};for(var f in p.prototype)e.fn.tableExport[f]=p.prototype[f]}t["default"]=t.TableExport=p});
+
+;(function (root, factory) {
+    if (typeof define === 'function' && define.amd) {
+        // AMD. Register as an anonymous module.
+        define(['exports', 'jquery', 'blobjs', 'file-saver', 'xlsx'], function(e, j, b, f, x){
+            return (root.TableExport = factory(root.exports||e, root.jQuery||j, root.Blob||b, root.saveAs||f, root.XLSX||x));
+        });
+    } else if (typeof exports === 'object' && typeof exports.nodeName !== 'string') {
+        // CommonJS
+        factory(exports, require('jquery'), require('blobjs'), require('file-saver'), require('xlsx'));
+    } else {
+        // Browser globals
+        factory(root, root.jQuery, root.Blob, root.saveAs, root.XLSX);
+    }
+}(this, function (exports, $, Blob, saveAs, XLSX) {
+        'use strict';
+        /**
+         * TableExport main plugin constructor
+         * @param selectors {jQuery} jQuery selector(s)
+         * @param options {Object} TableExport configuration options
+         * @param isUpdate {Boolean}
+         * @constructor
+         */
+
+        Blob = Blob || exports.Blob;
+
+        var TableExport = function (selectors, options, isUpdate) {
+
+            var self = this;
+            /**
+             * TableExport configuration options (user-defined w/ default fallback)
+             */
+            self.settings = isUpdate ? options : $.extend({}, TableExport.prototype.defaults, options);
+            /**
+             * jQuery selectors (tables) to apply the plugin to
+             */
+            self.selectors = selectors;
+
+            var rowD = TableExport.prototype.rowDel,
+                ignoreRows = self.settings.ignoreRows instanceof Array ? self.settings.ignoreRows : [self.settings.ignoreRows],
+                ignoreCols = self.settings.ignoreCols instanceof Array ? self.settings.ignoreCols : [self.settings.ignoreCols],
+                ignoreCSS = self.settings.ignoreCSS instanceof Array ? self.settings.ignoreCSS.join(", ") : self.settings.ignoreCSS,
+                emptyCSS = self.settings.emptyCSS instanceof Array ? self.settings.emptyCSS.join(", ") : self.settings.emptyCSS,
+                bootstrapClass, bootstrapTheme, bootstrapSpacing;
+
+            if (self.settings.bootstrap) {
+                bootstrapClass = TableExport.prototype.bootstrap[0] + " ";
+                bootstrapTheme = TableExport.prototype.bootstrap[1] + " ";
+                bootstrapSpacing = TableExport.prototype.bootstrap[2] + " ";
+            } else {
+                bootstrapClass = TableExport.prototype.defaultButton + " ";
+                bootstrapTheme = bootstrapSpacing = "";
+            }
+
+            self.selectors.each(function () {
+                var $el = $(this);
+                if (isUpdate) {
+                    $el.find('caption:not(.head)').remove();
+                }
+                var $rows = $el.find('tbody').find('tr'),
+                    $rows = self.settings.headings ? $rows.add($el.find('thead>tr')) : $rows,
+                    $rows = self.settings.footers ? $rows.add($el.find('tfoot>tr')) : $rows,
+                    thAdj = self.settings.headings ? $el.find('thead>tr').length : 0,
+                    fileName = self.settings.fileName === "id" ? ($el.attr('id') ? $el.attr('id') : TableExport.prototype.defaultFileName) : self.settings.fileName,
+                    exporters = {
+                        xlsx: function (rDel, name) {
+                            var rcMap = {},
+                                dataURL = $rows.map(function (ir, val) {
+                                    if (!!~ignoreRows.indexOf(ir - thAdj) || $(val).is(ignoreCSS)) {
+                                        return;
+                                    }
+                                    var $cols = $(val).find('th, td');
+                                    return [$cols.map(function (ic, val) {
+                                        if (!!~ignoreCols.indexOf(ic) || $(val).is(ignoreCSS)) {
+                                            return;
+                                        }
+                                        if ($(val).is(emptyCSS)) {
+                                            return " "
+                                        }
+                                        if (val.hasAttribute('colspan')) {
+                                            rcMap[ir] = rcMap[ir] || {};
+                                            rcMap[ir][ic + 1] = val.getAttribute('colspan') - 1
+                                        }
+                                        if (val.hasAttribute('rowspan')) {
+                                            for (var i = 1; i < val.getAttribute('rowspan'); i++) {
+                                                rcMap[ir + i] = rcMap[ir + i] || {};
+                                                rcMap[ir + i][ic] = 1
+                                            }
+                                        }
+                                        if (rcMap[ir] && rcMap[ir][ic]) {
+                                            return new Array(rcMap[ir][ic]).concat($(val).text());
+                                        }
+                                        return $(val).text();
+                                    }).get()];
+                                }).get(),
+                                dataObject = TableExport.prototype.escapeHtml(
+                                    JSON.stringify({
+                                        data: dataURL,
+                                        fileName: name,
+                                        mimeType: TableExport.prototype.xlsx.mimeType,
+                                        fileExtension: TableExport.prototype.xlsx.fileExtension
+                                    })),
+                                myContent = TableExport.prototype.xlsx.buttonContent,
+                                myClass = TableExport.prototype.xlsx.defaultClass;
+                            createObjButton(dataObject, myContent, myClass);
+                        },
+                        xlsm: function (rDel, name) {
+                            var rcMap = {},
+                                dataURL = $rows.map(function (ir, val) {
+                                    if (!!~ignoreRows.indexOf(ir - thAdj) || $(val).is(ignoreCSS)) {
+                                        return;
+                                    }
+                                    var $cols = $(val).find('th, td');
+                                    return [$cols.map(function (ic, val) {
+                                        if (!!~ignoreCols.indexOf(ic) || $(val).is(ignoreCSS)) {
+                                            return;
+                                        }
+                                        if ($(val).is(emptyCSS)) {
+                                            return " "
+                                        }
+                                        if (val.hasAttribute('colspan')) {
+                                            rcMap[ir] = rcMap[ir] || {};
+                                            rcMap[ir][ic + 1] = val.getAttribute('colspan') - 1
+                                        }
+                                        if (val.hasAttribute('rowspan')) {
+                                            for (var i = 1; i < val.getAttribute('rowspan'); i++) {
+                                                rcMap[ir + i] = rcMap[ir + i] || {};
+                                                rcMap[ir + i][ic] = 1
+                                            }
+                                        }
+                                        if (rcMap[ir] && rcMap[ir][ic]) {
+                                            return new Array(rcMap[ir][ic]).concat($(val).text());
+                                        }
+                                        return $(val).text();
+                                    }).get()];
+                                }).get(),
+                                dataObject = TableExport.prototype.escapeHtml(
+                                    JSON.stringify({
+                                        data: dataURL,
+                                        fileName: name,
+                                        mimeType: TableExport.prototype.xls.mimeType,
+                                        fileExtension: TableExport.prototype.xls.fileExtension
+                                    })),
+                                myContent = TableExport.prototype.xls.buttonContent,
+                                myClass = TableExport.prototype.xls.defaultClass;
+                            createObjButton(dataObject, myContent, myClass);
+                        },
+                        xls: function (rdel, name) {
+                            var colD = TableExport.prototype.xls.separator,
+                                dataURL = $rows.map(function (i, val) {
+                                    if (!!~ignoreRows.indexOf(i - thAdj) || $(val).is(ignoreCSS)) {
+                                        return;
+                                    }
+                                    var $cols = $(val).find('th, td');
+                                    return $cols.map(function (i, val) {
+                                        if (!!~ignoreCols.indexOf(i) || $(val).is(ignoreCSS)) {
+                                            return;
+                                        }
+                                        if ($(val).is(emptyCSS)) {
+                                            return " "
+                                        }
+                                        return $(val).text();
+                                    }).get().join(colD);
+                                }).get().join(rdel),
+                                dataObject = TableExport.prototype.escapeHtml(
+                                    JSON.stringify({
+                                        data: dataURL,
+                                        fileName: name,
+                                        mimeType: TableExport.prototype.xls.mimeType,
+                                        fileExtension: TableExport.prototype.xls.fileExtension
+                                    })),
+                                myContent = TableExport.prototype.xls.buttonContent,
+                                myClass = TableExport.prototype.xls.defaultClass;
+                            createObjButton(dataObject, myContent, myClass);
+                        },
+                        csv: function (rdel, name) {
+                            var colD = TableExport.prototype.csv.separator,
+                                dataURL = $rows.map(function (i, val) {
+                                    if (!!~ignoreRows.indexOf(i - thAdj) || $(val).is(ignoreCSS)) {
+                                        return;
+                                    }
+                                    var $cols = $(val).find('th, td');
+                                    return $cols.map(function (i, val) {
+                                        if (!!~ignoreCols.indexOf(i) || $(val).is(ignoreCSS)) {
+                                            return;
+                                        }
+                                        if ($(val).is(emptyCSS)) {
+                                            return " "
+                                        }
+                                        return '"' + $(val).text().replace(/"/g, '""') + '"';
+                                    }).get().join(colD);
+                                }).get().join(rdel),
+                                dataObject = TableExport.prototype.escapeHtml(
+                                    JSON.stringify({
+                                        data: dataURL,
+                                        fileName: name,
+                                        mimeType: TableExport.prototype.csv.mimeType,
+                                        fileExtension: TableExport.prototype.csv.fileExtension
+                                    })),
+                                myContent = TableExport.prototype.csv.buttonContent,
+                                myClass = TableExport.prototype.csv.defaultClass;
+                            createObjButton(dataObject, myContent, myClass);
+                        },
+                        txt: function (rdel, name) {
+                            var colD = TableExport.prototype.txt.separator,
+                                dataURL = $rows.map(function (i, val) {
+                                    if (!!~ignoreRows.indexOf(i - thAdj) || $(val).is(ignoreCSS)) {
+                                        return;
+                                    }
+                                    var $cols = $(val).find('th, td');
+                                    return $cols.map(function (i, val) {
+                                        if (!!~ignoreCols.indexOf(i) || $(val).is(ignoreCSS)) {
+                                            return;
+                                        }
+                                        if ($(val).is(emptyCSS)) {
+                                            return " "
+                                        }
+                                        return $(val).text();
+                                    }).get().join(colD);
+                                }).get().join(rdel),
+                                dataObject = TableExport.prototype.escapeHtml(
+                                    JSON.stringify({
+                                        data: dataURL,
+                                        fileName: name,
+                                        mimeType: TableExport.prototype.txt.mimeType,
+                                        fileExtension: TableExport.prototype.txt.fileExtension
+                                    })),
+                                myContent = TableExport.prototype.txt.buttonContent,
+                                myClass = TableExport.prototype.txt.defaultClass;
+                            createObjButton(dataObject, myContent, myClass);
+                        }
+                    };
+
+                self.settings.formats.forEach(
+                    function (key) {
+                        XLSX && key === 'xls' ? key = 'xlsm' : false;
+                        !XLSX && key === 'xlsx' ? key = null : false;
+                        key && exporters[key](rowD, fileName);
+                    }
+                );
+
+                function checkCaption(exportButton) {
+                    var $caption = $el.find('caption:not(.head)');
+                    $caption.length ? $caption.append(exportButton) : $el.prepend('<caption class="' + bootstrapSpacing + self.settings.position + '">' + exportButton + '</caption>');
+                }
+
+                function createObjButton(dataObject, myContent, myClass) {
+                    var exportButton = "<button data-fileblob='" + dataObject + "' class='" + bootstrapClass + bootstrapTheme + myClass + "'>" + myContent + "</button>";
+                    checkCaption(exportButton);
+                }
+            });
+
+            $("button[data-fileblob]")
+                .off("click")
+                .on("click", function () {
+                    var object = $(this).data("fileblob"),
+                        data = object.data,
+                        fileName = object.fileName,
+                        mimeType = object.mimeType,
+                        fileExtension = object.fileExtension;
+                    TableExport.prototype.export2file(data, mimeType, fileName, fileExtension);
+                });
+
+            return self;
+        };
+
+
+        TableExport.prototype = {
+            /**
+             * Default plugin options.
+             * @memberof TableExport.prototype
+             */
+            defaults: {
+                headings: true,                             // (Boolean), display table headings (th or td elements) in the <thead>, (default: true)
+                footers: true,                              // (Boolean), display table footers (th or td elements) in the <tfoot>, (default: false)
+                formats: ["xls", "csv", "txt"],             // (String[]), filetype(s) for the export, (default: ["xls", "csv", "txt"])
+                fileName: "id",                             // (id, String), filename for the downloaded file, (default: "id")
+                bootstrap: true,                            // (Boolean), style buttons using bootstrap, (default: true)
+                position: "bottom",                         // (top, bottom), position of the caption element relative to table, (default: "bottom")
+                ignoreRows: null,                           // (Number, Number[]), row indices to exclude from the exported file (default: null)
+                ignoreCols: null,                           // (Number, Number[]), column indices to exclude from the exported file (default: null)
+                ignoreCSS: ".tableexport-ignore",           // (selector, selector[]), selector(s) to exclude cells from the exported file (default: ".tableexport-ignore")
+                emptyCSS: ".tableexport-empty"              // (selector, selector[]), selector(s) to replace cells with an empty string in the exported file (default: ".tableexport-empty")
+            },
+            /**
+             * Character set (character encoding) of the HTML.
+             * @memberof TableExport.prototype
+             */
+            charset: "charset=utf-8",
+            /**
+             * Filename fallback for exported files.
+             * @memberof TableExport.prototype
+             */
+            defaultFileName: "myDownload",
+            /**
+             * Class applied to each export button element.
+             * @memberof TableExport.prototype
+             */
+            defaultButton: "button-default",
+            /**
+             * Bootstrap configuration classes ["base", "theme", "container"].
+             * @memberof TableExport.prototype
+             */
+            bootstrap: ["btn", "btn-default", "btn-toolbar"],
+            /**
+             * Row delimeter
+             * @memberof TableExport.prototype
+             */
+            rowDel: "\r\n",
+            /**
+             * HTML entity mapping for special characters.
+             * @memberof TableExport.prototype
+             */
+            entityMap: {"&": "&#38;", "<": "&#60;", ">": "&#62;", "'": '&#39;', "/": '&#47;'},
+            /**
+             * XLSX (Open XML spreadsheet) file extension configuration
+             * @memberof TableExport.prototype
+             */
+            xlsx: {
+                defaultClass: "xlsx",
+                buttonContent: "Export to xlsx",
+                mimeType: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                fileExtension: ".xlsx"
+            },
+            /**
+             * XLS (Binary spreadsheet) file extension configuration
+             * @memberof TableExport.prototype
+             */
+            xls: {
+                defaultClass: "xls",
+                buttonContent: "Export to xls",
+                separator: "\t",
+                mimeType: "application/vnd.ms-excel",
+                fileExtension: ".xls"
+            },
+            /**
+             * CSV (Comma Separated Values) file extension configuration
+             * @memberof TableExport.prototype
+             */
+            csv: {
+                defaultClass: "csv",
+                buttonContent: "Export to csv",
+                separator: ",",
+                mimeType: "text/csv",
+                fileExtension: ".csv"
+            },
+            /**
+             * TXT (Plain Text) file extension configuration
+             * @memberof TableExport.prototype
+             */
+            txt: {
+                defaultClass: "txt",
+                buttonContent: "Export to txt",
+                separator: "  ",
+                mimeType: "text/plain",
+                fileExtension: ".txt"
+            },
+            /**
+             * Escapes special characters with HTML entities
+             * @memberof TableExport.prototype
+             * @param string {String}
+             * @returns {String} escaped string
+             */
+            escapeHtml: function (string) {
+                return String(string).replace(/[&<>'\/]/g, function (s) {
+                    return TableExport.prototype.entityMap[s];
+                });
+            },
+            /**
+             * Formats datetimes for compatibility with Excel
+             * @memberof TableExport.prototype
+             * @param v {Number}
+             * @param date1904 {Date}
+             * @returns {Number} epoch time
+             */
+            dateNum: function (v, date1904) {
+                if (date1904) v += 1462;
+                var epoch = Date.parse(v);
+                return (epoch - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000);
+            },
+            /**
+             * Creates an Excel spreadsheet from a data string
+             * @memberof TableExport.prototype
+             * @param data {String}
+             * @returns {Number} epoch time
+             */
+            createSheet: function (data) {
+                var ws = {};
+                var range = {s: {c: 10000000, r: 10000000}, e: {c: 0, r: 0}};
+                for (var R = 0; R != data.length; ++R) {
+                    for (var C = 0; C != data[R].length; ++C) {
+                        if (range.s.r > R) range.s.r = R;
+                        if (range.s.c > C) range.s.c = C;
+                        if (range.e.r < R) range.e.r = R;
+                        if (range.e.c < C) range.e.c = C;
+                        var cell = {v: data[R][C]};
+                        if (cell.v == null) continue;
+                        var cell_ref = XLSX.utils.encode_cell({c: C, r: R});
+
+                        if (typeof cell.v === 'number') cell.t = 'n';
+                        else if (typeof cell.v === 'boolean') cell.t = 'b';
+                        else if (cell.v instanceof Date) {
+                            cell.t = 'n';
+                            cell.z = XLSX.SSF._table[14];
+                            cell.v = this.dateNum(cell.v);
+                        }
+                        else cell.t = 's';
+
+                        ws[cell_ref] = cell;
+                    }
+                }
+                if (range.s.c < 10000000) ws['!ref'] = XLSX.utils.encode_range(range);
+                return ws;
+            },
+            /**
+             * Excel Workbook constructor
+             * @memberof TableExport.prototype
+             * @constructor
+             */
+            Workbook: function () {
+                this.SheetNames = [];
+                this.Sheets = {};
+            },
+            /**
+             * Converts a string to an arraybuffer
+             * @param s {String}
+             * @memberof TableExport.prototype
+             * @returns {ArrayBuffer}
+             */
+            string2ArrayBuffer: function (s) {
+                var buf = new ArrayBuffer(s.length);
+                var view = new Uint8Array(buf);
+                for (var i = 0; i != s.length; ++i) view[i] = s.charCodeAt(i) & 0xFF;
+                return buf;
+            },
+            /**
+             * Exports and downloads the file
+             * @memberof TableExport.prototype
+             * @param data {String}
+             * @param mime {String} mime type
+             * @param name {String} filename
+             * @param extension {String} file extension
+             */
+            export2file: function (data, mime, name, extension) {
+                if (XLSX && extension.substr(0, 4) == (".xls")) {
+                    var wb = new this.Workbook(),
+                        ws = this.createSheet(data);
+
+                    wb.SheetNames.push(name);
+                    wb.Sheets[name] = ws;
+                    var wopts = {
+                            bookType: extension.substr(1, 3) + (extension.substr(4) || 'm'),
+                            bookSST: false,
+                            type: 'binary'
+                        },
+                        wbout = XLSX.write(wb, wopts);
+
+                    data = this.string2ArrayBuffer(wbout);
+                }
+                saveAs(new Blob([data],
+                    {type: mime + ";" + this.charset}),
+                    name + extension, true);
+            },
+            /**
+             * Updates the plugin instance with new/updated options
+             * @param options {Object} TableExport configuration options
+             * @returns {TableExport} updated TableExport instance
+             */
+            update: function (options) {
+                return new TableExport(this.selectors, $.extend({}, this.settings, options), true);
+            },
+            /**
+             * Reset the plugin instance to its original state
+             * @returns {TableExport} original TableExport instance
+             */
+            reset: function () {
+                return new TableExport(this.selectors, settings, true);
+            },
+            /**
+             * Remove the instance (i.e. caption containing the export buttons)
+             */
+            remove: function () {
+                this.selectors.each(function () {
+                    $(this).find('caption:not(.head)').remove();
+                });
+            }
+        };
+
+        /**
+         * jQuery TableExport wrapper
+         * @param options {Object} TableExport configuration options
+         * @param isUpdate {Boolean}
+         * @returns {TableExport} TableExport instance
+         */
+        $.fn.tableExport = function (options, isUpdate) {
+            return new TableExport(this, options, isUpdate);
+        };
+
+        // alias the TableExport prototype
+        for (var prop in TableExport.prototype) {
+            $.fn.tableExport[prop] = TableExport.prototype[prop];
+        }
+
+        return exports.default = exports.TableExport = TableExport;
+
+    }
+));

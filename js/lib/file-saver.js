@@ -1,17 +1,12 @@
-/* FileSaver.js
- * A saveAs() FileSaver implementation.
- * 1.3.2
- * 2016-06-16 18:25:19
+/*! FileSaver.js v1.0.0
  *
+ * A saveAs() FileSaver implementation.
+ *
+ * By Travis Clarke, https://travismclarke.com
  * By Eli Grey, http://eligrey.com
- * License: MIT
- *   See https://github.com/eligrey/FileSaver.js/blob/master/LICENSE.md
+ *
+ * License: MIT (https://github.com/clarketm/FileSaver.js/blob/master/LICENSE.md)
  */
-
-/*global self */
-/*jslint bitwise: true, indent: 4, laxbreak: true, laxcomma: true, smarttabs: true, plusplus: true */
-
-/*! @source http://purl.eligrey.com/github/FileSaver.js/blob/master/FileSaver.js */
 
 ;(function (root, factory) {
     if (typeof exports === 'object' && typeof exports.nodeName !== 'string') {
@@ -24,8 +19,7 @@
     } else {
         factory(root);
     }
-}(typeof window !== "undefined" ? window : this, function (window, noGlobal) {
-
+}(window || this, function (window, noGlobal) {
         "use strict";
         // IE <10 is explicitly unsupported
         if (typeof window === "undefined" || typeof navigator !== "undefined" && /MSIE [1-9]\./.test(navigator.userAgent)) {

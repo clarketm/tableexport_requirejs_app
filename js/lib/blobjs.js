@@ -1,7 +1,8 @@
-/* Blob.js v1.0.3
+/* Blob.js v1.1.0
  *
  * native Blob interface support (polyfill)
  *
+ * By Travis Clarke, https://travismclarke.com
  * By Eli Grey, http://eligrey.com
  * By Devin Samarin, https://github.com/dsamarin
  *
@@ -20,29 +21,22 @@
     } else {
         factory(root);
     }
-}(typeof window !== "undefined" ? window : this, function (window, noGlobal) {
+}(window || this, function (window, noGlobal) {
         "use strict";
 
-        var Blob = window.Blob || {},
-            is_safari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent),
-            bootstrap = function () {
-                if (typeof define === "function" && define.amd) {
-                    define("blobjs", [], function () {
-                        return Blob;
-                    });
-                }
-                if (typeof noGlobal === 'undefined') {
-                    window.Blob = Blob;
-                }
-            };
+        var is_safari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
 
         window.URL = window.URL || window.webkitURL;
 
         if (window.Blob && window.URL && !is_safari) {
             try {
                 new window.Blob;
-                bootstrap();
-                return
+                if (typeof define === "function" && define.amd) {
+                    define("blobjs", [], function () {
+                        return window.Blob;
+                    });
+                }
+                return window.Blob;
             } catch (e) {
             }
         }
@@ -206,7 +200,7 @@
                 return FakeBlobBuilder;
             }(window));
 
-        Blob = function (blobParts, options) {
+        var Blob = function (blobParts, options) {
             var type = options ? (options.type || "") : "";
             var builder = new BlobBuilder();
             if (blobParts) {
@@ -226,8 +220,21 @@
             return blob;
         };
 
-        bootstrap();
-        return Blob;
+        var getPrototypeOf = Object.getPrototypeOf || function (object) {
+                return object.__proto__;
+            };
 
+        Blob.prototype = getPrototypeOf(new view.Blob());
+
+        if (typeof define === "function" && define.amd) {
+            define("blobjs", [], function () {
+                return Blob;
+            });
+        }
+        if (typeof noGlobal === 'undefined') {
+            window.Blob = Blob;
+        }
+
+        return Blob;
     }
 ));

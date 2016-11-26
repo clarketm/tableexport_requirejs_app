@@ -12,7 +12,7 @@
 ;(function (root, factory) {
     if (typeof define === 'function' && define.amd) {
         define(['exports'], function (e) {
-            return (root.Blob = factory(root.exports || e));
+            return factory(root || e);
         });
     } else if (typeof exports === 'object' && typeof exports.nodeName !== 'string') {
         // CommonJS
@@ -29,7 +29,7 @@
         if (exports.Blob && exports.URL && !is_safari) {
             try {
                 new Blob;
-                return;
+                return Blob;
             } catch (e) {
             }
         }
@@ -219,7 +219,8 @@
 
         exports.Blob.prototype = getPrototypeOf(new exports.Blob());
 
-        return exports;
+        console.log(exports);
+        return exports.Blob
 
     }
 ));

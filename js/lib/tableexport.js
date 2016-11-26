@@ -7,17 +7,33 @@
 ;(function (root, factory) {
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
+
+        // define(['exports', 'jquery', 'blobjs', 'file-saver', 'xlsx'], function (exports, j, b, f, x) {
+        //     factory((root.TableExport = exports), root.jQuery||j, b, f, x);
+        // });
+
+
         define(['exports', 'jquery', 'blobjs', 'file-saver', 'xlsx'], function(e, j, b, f, x){
-            return (root.TableExport = factory(root.exports||e, root.jQuery||j, root.Blob||b, root.saveAs||f, root.XLSX||x));
+            console.warn(root.Blob, b);
+
+            return factory(root||e, j, b, f, x);
+            // return factory(root||e, root.jQuery||j, root.Blob||b, root.saveAs||f, root.XLSX||x);
         });
     } else if (typeof exports === 'object' && typeof exports.nodeName !== 'string') {
         // CommonJS
         factory(exports, require('jquery'), require('blobjs'), require('file-saver'), require('xlsx'));
     } else {
         // Browser globals
+        // factory((root.TableExport = {}), root.jQuery, root.Blob, root.saveAs, root.XLSX);
         factory(root, root.jQuery, root.Blob, root.saveAs, root.XLSX);
     }
 }(this, function (exports, $, Blob, saveAs, XLSX) {
+        console.group();
+        console.log($);
+        console.log(Blob);
+        console.log(saveAs);
+        console.log(XLSX);
+         console.groupEnd();
         'use strict';
         /**
          * TableExport main plugin constructor

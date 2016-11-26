@@ -8,7 +8,7 @@
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
         define(['exports', "jszip"], function (e, j) {
-            return (root.XLSX = factory(root.exports || e, root.JSZip || j));
+            return factory(root || e, j);
         });
     } else if (typeof exports === 'object' && typeof exports.nodeName !== 'string') {
         // CommonJS
@@ -14467,6 +14467,6 @@
         XLSX.utils = utils;
         XLSX.CFB = CFB;
         XLSX.SSF = SSF;
-        return XLSX
+        return exports.XLSX = XLSX;
     }
 ));

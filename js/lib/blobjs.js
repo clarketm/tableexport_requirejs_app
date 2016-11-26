@@ -13,6 +13,7 @@
     if (typeof define === 'function' && define.amd) {
         define(['exports'], function (e) {
             return factory(root || e);
+            // return factory(root || e);
         });
     } else if (typeof exports === 'object' && typeof exports.nodeName !== 'string') {
         // CommonJS
@@ -29,7 +30,7 @@
         if (exports.Blob && exports.URL && !is_safari) {
             try {
                 new Blob;
-                return Blob;
+                return exports.Blob = Blob;
             } catch (e) {
             }
         }
@@ -217,10 +218,7 @@
                 return object.__proto__;
             };
 
-        exports.Blob.prototype = getPrototypeOf(new exports.Blob());
-
-        console.log(exports);
-        return exports.Blob
+        return exports.Blob.prototype = getPrototypeOf(new exports.Blob());
 
     }
 ));

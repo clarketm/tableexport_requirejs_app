@@ -16,7 +16,8 @@
 ;(function (root, factory) {
     if (typeof define === 'function' && define.amd) {
         define(['exports'], function (e) {
-            return (root.saveAs = factory(root || e));
+            // return (root.saveAs = factory(root || e));
+            return factory(root || e);
         });
     } else if (typeof exports === 'object' && typeof exports.nodeName !== 'string') {
         factory(exports);
@@ -24,8 +25,6 @@
         factory(root);
     }
 }(this, function (exports) {
-
-        console.log(exports);
         "use strict";
         // IE <10 is explicitly unsupported
         if (typeof exports === "undefined" || typeof navigator !== "undefined" && /MSIE [1-9]\./.test(navigator.userAgent)) {
@@ -183,8 +182,6 @@
                                     null;
 
 
-        console.log(exports);
-        exports.saveAs = saveAs;
-        return saveAs;
+        return exports.saveAs = saveAs;
     }
 ));

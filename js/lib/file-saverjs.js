@@ -177,7 +177,7 @@
                                     null;
 
         if (typeof define === "function" && define.amd) {
-            define("file-saver", [], function () {
+            define("file-saverjs", [], function () {
                 return saveAs;
             });
         }

@@ -4,5 +4,5 @@ This project is a simple app demostrating the use of [TableExport](https://githu
 
 ## Checkout the [demo](https://www.travismclarke.com/te_rjs_app/app.html)!
 
-### File Structure
+## File Structure
 ![Project Structure](https://travismclarke.com/res/tableexport_requiejs_app.png "Project Structure")

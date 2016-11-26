@@ -10,32 +10,46 @@
  */
 
 ;(function (root, factory) {
-    if (typeof define === 'function' && define.amd) {
-        define([], function () {
-            return factory(root);
-        });
-    } else if (typeof exports === 'object' && typeof exports.nodeName !== 'string') {
-        factory(exports);
+    if (typeof exports === 'object' && typeof exports.nodeName !== 'string') {
+        module.exports = root.document ? factory(root, true) : function (w) {
+            if (!w.document) {
+                throw new Error("blobjs requires a window with a document");
+            }
+            return factory(w);
+        };
     } else {
         factory(root);
     }
-}(this, function (exports) {
+}(typeof window !== "undefined" ? window : this, function (window, noGlobal) {
         "use strict";
-        var is_safari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
 
-        exports.URL = exports.URL || exports.webkitURL;
+        var Blob = window.Blob || {},
+            is_safari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent),
+            bootstrap = function () {
+                if (typeof define === "function" && define.amd) {
+                    define("blobjs", [], function () {
+                        return Blob;
+                    });
+                }
+                if (typeof noGlobal === 'undefined') {
+                    window.Blob = Blob;
+                }
+            };
 
-        if (exports.Blob && exports.URL && !is_safari) {
+        window.URL = window.URL || window.webkitURL;
+
+        if (window.Blob && window.URL && !is_safari) {
             try {
-                new Blob;
-                return exports.Blob = Blob;
+                new window.Blob;
+                bootstrap();
+                return
             } catch (e) {
             }
         }
 
         // Internally we use a BlobBuilder implementation to base Blob off of
         // in order to support older browsers that only have BlobBuilder
-        var BlobBuilder = exports.BlobBuilder || exports.WebKitBlobBuilder || exports.MozBlobBuilder || (function (exports) {
+        var BlobBuilder = window.BlobBuilder || window.WebKitBlobBuilder || window.MozBlobBuilder || (function (window) {
                 var
                     get_class = function (object) {
                         return Object.prototype.toString.call(object).match(/^\[object\s(.*)\]$/)[1];
@@ -51,7 +65,7 @@
                     }
                     , FBB_proto = FakeBlobBuilder.prototype
                     , FB_proto = FakeBlob.prototype
-                    , FileReaderSync = exports.FileReaderSync
+                    , FileReaderSync = window.FileReaderSync
                     , FileException = function (type) {
                         this.code = this[this.name = type];
                     }
@@ -60,15 +74,15 @@
                         + "NO_MODIFICATION_ALLOWED_ERR INVALID_STATE_ERR SYNTAX_ERR"
                     ).split(" ")
                     , file_ex_code = file_ex_codes.length
-                    , real_URL = exports.URL || exports.webkitURL || exports
+                    , real_URL = window.URL || window.webkitURL || window
                     , real_create_object_URL = real_URL.createObjectURL
                     , real_revoke_object_URL = real_URL.revokeObjectURL
                     , URL = real_URL
-                    , btoa = exports.btoa
-                    , atob = exports.atob
+                    , btoa = window.btoa
+                    , atob = window.atob
 
-                    , ArrayBuffer = exports.ArrayBuffer
-                    , Uint8Array = exports.Uint8Array
+                    , ArrayBuffer = window.ArrayBuffer
+                    , Uint8Array = window.Uint8Array
 
                     , origin = /^[\w-]+:\/*\[?[\w\.:-]+\]?(?::[0-9]+)?/
                     ;
@@ -78,7 +92,7 @@
                 }
                 // Polyfill URL
                 if (!real_URL.createObjectURL) {
-                    URL = exports.URL = function (uri) {
+                    URL = window.URL = function (uri) {
                         var
                             uri_info = document.createElementNS("http://www.w3.org/1999/xhtml", "a")
                             , uri_origin
@@ -190,9 +204,9 @@
                     delete this.data;
                 };
                 return FakeBlobBuilder;
-            }(exports));
+            }(window));
 
-        return exports.Blob = function (blobParts, options) {
+        Blob = function (blobParts, options) {
             var type = options ? (options.type || "") : "";
             var builder = new BlobBuilder();
             if (blobParts) {
@@ -211,5 +225,9 @@
             }
             return blob;
         };
+
+        bootstrap();
+        return Blob;
+
     }
 ));

@@ -14,26 +14,28 @@
 /*! @source http://purl.eligrey.com/github/FileSaver.js/blob/master/FileSaver.js */
 
 ;(function (root, factory) {
-    if (typeof define === 'function' && define.amd) {
-        define([], function () {
-            return factory(root);
-        });
-    } else if (typeof exports === 'object' && typeof exports.nodeName !== 'string') {
-        factory(exports);
+    if (typeof exports === 'object' && typeof exports.nodeName !== 'string') {
+        module.exports = root.document ? factory(root, true) : function (w) {
+            if (!w.document) {
+                throw new Error("FileSaver requires a window with a document");
+            }
+            return factory(w);
+        };
     } else {
         factory(root);
     }
-}(this, function (exports) {
+}(typeof window !== "undefined" ? window : this, function (window, noGlobal) {
+
         "use strict";
         // IE <10 is explicitly unsupported
-        if (typeof exports === "undefined" || typeof navigator !== "undefined" && /MSIE [1-9]\./.test(navigator.userAgent)) {
+        if (typeof window === "undefined" || typeof navigator !== "undefined" && /MSIE [1-9]\./.test(navigator.userAgent)) {
             return;
         }
         var
-            doc = exports.document
+            doc = window.document
             // only get URL when necessary in case Blob.js hasn't overridden it yet
             , get_URL = function () {
-                return exports.URL || exports.webkitURL || exports;
+                return window.URL || window.webkitURL || window;
             }
             , save_link = doc.createElementNS("http://www.w3.org/1999/xhtml", "a")
             , can_use_save_link = "download" in save_link
@@ -41,10 +43,10 @@
                 var event = new MouseEvent("click");
                 node.dispatchEvent(event);
             }
-            , is_safari = /constructor/i.test(exports.HTMLElement) || exports.safari
+            , is_safari = /constructor/i.test(window.HTMLElement) || window.safari
             , is_chrome_ios = /CriOS\/[\d]+/.test(navigator.userAgent)
             , throw_outside = function (ex) {
-                (exports.setImmediate || exports.setTimeout)(function () {
+                (window.setImmediate || window.setTimeout)(function () {
                     throw ex;
                 }, 0);
             }
@@ -98,13 +100,13 @@
                     }
                     // on any filesys errors revert to saving with object URLs
                     , fs_error = function () {
-                        if ((is_chrome_ios || (force && is_safari)) && exports.FileReader) {
+                        if ((is_chrome_ios || (force && is_safari)) && window.FileReader) {
                             // Safari doesn't allow downloading of blob urls
                             var reader = new FileReader();
                             reader.onloadend = function () {
                                 var url = is_chrome_ios ? reader.result : reader.result.replace(/^data:[^;]*;/, 'data:attachment/file;');
-                                var popup = exports.open(url, '_blank');
-                                if (!popup) exports.location.href = url;
+                                var popup = window.open(url, '_blank');
+                                if (!popup) window.location.href = url;
                                 url = undefined; // release reference before dispatching
                                 filesaver.readyState = filesaver.DONE;
                                 dispatch_all();
@@ -118,12 +120,12 @@
                             object_url = get_URL().createObjectURL(blob);
                         }
                         if (force) {
-                            exports.location.href = object_url;
+                            window.location.href = object_url;
                         } else {
-                            var opened = exports.open(object_url, "_blank");
+                            var opened = window.open(object_url, "_blank");
                             if (!opened) {
                                 // Apple does not allow window.open, see https://developer.apple.com/library/safari/documentation/Tools/Conceptual/SafariExtensionGuide/WorkingwithWindowsandTabs/WorkingwithWindowsandTabs.html
-                                exports.location.href = object_url;
+                                window.location.href = object_url;
                             }
                         }
                         filesaver.readyState = filesaver.DONE;
@@ -180,7 +182,15 @@
                                 FS_proto.onwriteend =
                                     null;
 
+        if (typeof define === "function" && define.amd) {
+            define("file-saver", [], function () {
+                return saveAs;
+            });
+        }
 
-        return exports.saveAs = saveAs;
+        if (typeof noGlobal === 'undefined') {
+            window.saveAs = saveAs;
+        }
+        return saveAs;
     }
 ));

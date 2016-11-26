@@ -6,9 +6,7 @@
 
 ;(function (root, factory) {
     if (typeof define === 'function' && define.amd) {
-        define(['exports', 'jquery', 'blobjs', 'file-saver', 'xlsx'], function (exports, j, b, f, x) {
-            return factory(root || exports, j, b, f, x);
-        });
+        define(['exports', 'jquery', 'blobjs', 'file-saver', 'xlsx'], factory);
     } else if (typeof exports === 'object' && typeof exports.nodeName !== 'string') {
         factory(exports, require('jquery'), require('blobjs'), require('file-saver'), require('xlsx'));
     } else {
@@ -266,6 +264,11 @@
 
 
         TableExport.prototype = {
+            /**
+             * Version.
+             * @memberof TableExport.prototype
+             */
+            version: "3.3.1",
             /**
              * Default plugin options.
              * @memberof TableExport.prototype

@@ -6,10 +6,7 @@
 
 ;(function (root, factory) {
     if (typeof define === 'function' && define.amd) {
-        // AMD. Register as an anonymous module.
-        define(['exports', "jszip"], function (e, j) {
-            return factory(root || e, j);
-        });
+        define(["exports", "jszip"], factory);
     } else if (typeof exports === 'object' && typeof exports.nodeName !== 'string') {
         // CommonJS
         factory(exports, require('jszip'));
@@ -19,7 +16,6 @@
     }
 }(this, function (exports, JSZip) {
         var XLSX = {};
-
 
         XLSX.version = '0.8.0';
         var current_codepage = 1200, current_cptable;

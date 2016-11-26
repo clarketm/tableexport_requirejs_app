@@ -15,9 +15,8 @@
 
 ;(function (root, factory) {
     if (typeof define === 'function' && define.amd) {
-        define(['exports'], function (e) {
-            // return (root.saveAs = factory(root || e));
-            return factory(root || e);
+        define([], function () {
+            return factory(root);
         });
     } else if (typeof exports === 'object' && typeof exports.nodeName !== 'string') {
         factory(exports);

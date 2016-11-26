@@ -11,12 +11,10 @@
 
 ;(function (root, factory) {
     if (typeof define === 'function' && define.amd) {
-        define(['exports'], function (e) {
-            return factory(root || e);
-            // return factory(root || e);
+        define([], function () {
+            return factory(root);
         });
     } else if (typeof exports === 'object' && typeof exports.nodeName !== 'string') {
-        // CommonJS
         factory(exports);
     } else {
         factory(root);
@@ -194,7 +192,7 @@
                 return FakeBlobBuilder;
             }(exports));
 
-        exports.Blob = function (blobParts, options) {
+        return exports.Blob = function (blobParts, options) {
             var type = options ? (options.type || "") : "";
             var builder = new BlobBuilder();
             if (blobParts) {
@@ -213,12 +211,5 @@
             }
             return blob;
         };
-
-        var getPrototypeOf = Object.getPrototypeOf || function (object) {
-                return object.__proto__;
-            };
-
-        return exports.Blob.prototype = getPrototypeOf(new exports.Blob());
-
     }
 ));

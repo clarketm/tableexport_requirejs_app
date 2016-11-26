@@ -1,4 +1,4 @@
-define(["jquery", "tableexport"], function ($) {
+define(["jquery", "tableexport"], function ($, TableExport) {
 
     // DOM ready
     $(function () {
@@ -8,7 +8,7 @@ define(["jquery", "tableexport"], function ($) {
 
         // Initialize TableExport using vanilla JS.
         var $selector = $("#table2");
-        new TableExport($selector);
+        new TableExport($selector, {formats: ["xlsx", "xls", "csv", "txt"]});
     });
 
 });

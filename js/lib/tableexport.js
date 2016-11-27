@@ -16,7 +16,6 @@
         factory(root, root.jQuery, root.Blob, root.saveAs, root.XLSX);
     }
 }(this, function (exports, $, Blob, saveAs, XLSX) {
-    console.log(saveAs);
         'use strict';
         /**
          * TableExport main plugin constructor

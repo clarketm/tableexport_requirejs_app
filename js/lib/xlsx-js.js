@@ -1,4 +1,4 @@
-/*! xlsx.js v0.8.4
+/*! xlsx-js.js v0.8.7
  *
  * (C) 2013-2015 SheetJS -- http://sheetjs.com
  * */
@@ -15,10 +15,10 @@
 }(this, function (exports, JSZip) {
         var XLSX = {};
 
-        XLSX.version = '0.8.2';
+        XLSX.version = '0.8.7';
         var current_codepage = 1200, current_cptable;
         if (typeof module !== "undefined" && typeof require !== 'undefined') {
-            if (typeof cptable === 'undefined') cptable = require('./dist/cpexcel');
+            if (typeof cptable === 'undefined') cptable = require('./cpexcel');
             current_cptable = cptable[current_codepage];
         }
         function reset_cp() {
@@ -1822,15 +1822,8 @@
             }
         }
 
-        var _fs, jszip;
-        if (typeof JSZip !== 'undefined') jszip = JSZip;
-        if (typeof exports !== 'undefined') {
-            if (typeof module !== 'undefined' && module.exports) {
-                if (has_buf && typeof jszip === 'undefined') jszip = require('js' + 'zip');
-                if (typeof jszip === 'undefined') jszip = require('./js' + 'zip').JSZip;
-                _fs = require('f' + 's');
-            }
-        }
+        var _fs;
+        var jszip = JSZip;
         var attregexg = /([\w:]+)=((?:")([^"]*)(?:")|(?:')([^']*)(?:'))/g;
         var tagregex = /<[^>]*>/g;
         var nsregex = /<\w*:/, nsregex2 = /<(\/?)\w+:/;

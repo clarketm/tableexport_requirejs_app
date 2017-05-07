@@ -6,4 +6,4 @@ This project is a simple app demonstrating the use of [TableExport](https://gith
 <br>
 
 ## File Structure
-![Project Structure](https://travismclarke.com/res/tableexport_requiejs_app.png "Project Structure")
+![Project Structure](https://github.com/clarketm/tableexport_requirejs_app/blob/master/directory-structure.png)

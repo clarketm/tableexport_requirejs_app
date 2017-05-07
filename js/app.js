@@ -3,9 +3,21 @@
 // Configure loading modules from the lib directory,
 // except 'app' ones, 
 requirejs.config({
-    "baseUrl": "js/lib",
+    "baseUrl": "js/libs",
+    "shim": {
+        "xlsx": {
+            "deps": ['jszip'],
+            "exports": 'XLSX'
+        }
+    },
     "paths": {
-      "app": "../app"
+        "app": "../app",
+        "jquery": "jquery/dist/jquery",
+        "tableexport": "tableexport.js/dist/js/tableexport",
+        "blobjs": "blobjs/Blob",
+        "file-saverjs": "file-saverjs/FileSaver",
+        "xlsx": "js-xlsx/dist/xlsx",
+        "jszip": "js-xlsx/dist/jszip"
     }
 });
 

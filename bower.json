@@ -1,0 +1,7 @@
+{
+  "name": "tableexport_requirejs_app",
+  "dependencies": {
+    "tableexport.js": "^4.0.0",
+    "requirejs": "^2.3.3"
+  }
+}

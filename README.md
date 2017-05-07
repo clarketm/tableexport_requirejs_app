@@ -5,5 +5,15 @@ This project is a simple app demonstrating the use of [TableExport](https://gith
 ### Checkout the [demo](https://www.travismclarke.com/te_rjs_app/app.html)!
 <br>
 
-## File Structure
+### Install
+```bash
+$ bower install   # Install the dependencies into the `libs` directory
+```
+
+### Run
+```bash
+$ http-server app.html 
+```
+
+### File Structure
 ![Project Structure](https://github.com/clarketm/tableexport_requirejs_app/blob/master/directory-structure.png)
